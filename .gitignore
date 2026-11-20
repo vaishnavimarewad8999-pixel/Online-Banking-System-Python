@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual environment
+.venv/
+venv/
+
+# Database (local user data)
+*.db
+*.sqlite3
+
+# Secret files
+.env
+
+# Backup files
+app_backup.py
