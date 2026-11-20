@@ -298,6 +298,22 @@ class BankingWebTestCase(unittest.TestCase):
         )
         db_mod.IS_POSTGRES = False
 
+    def test_10_homepage_and_static_routing(self):
+        # Homepage should directly render login page with 200 OK
+        res = self.client.get("/")
+        self.assertEqual(res.status_code, 200)
+        self.assertIn(b"Sign In - SecureBank", res.data)
+        self.assertIn(b"Welcome back", res.data)
+
+        # Static CSS and JS assets should be served
+        css_res = self.client.get("/static/css/style.css")
+        self.assertEqual(css_res.status_code, 200)
+        self.assertIn("text/css", css_res.headers.get("Content-Type", ""))
+
+        js_res = self.client.get("/static/js/main.js")
+        self.assertEqual(js_res.status_code, 200)
+
+
 
 if __name__ == "__main__":
     unittest.main()

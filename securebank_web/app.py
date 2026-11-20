@@ -61,11 +61,13 @@ def inject_user():
 # AUTHENTICATION ROUTES
 # -------------------------------------------------------------
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def index():
     if "user_id" in session:
         return redirect(url_for("dashboard"))
-    return redirect(url_for("login"))
+    if request.method == "POST":
+        return login()
+    return render_template("login.html")
 
 
 @app.route("/login", methods=["GET", "POST"])

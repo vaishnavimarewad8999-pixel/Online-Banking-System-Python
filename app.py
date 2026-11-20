@@ -1,13 +1,15 @@
-
 import os
-import runpy
+import sys
 from pathlib import Path
 
-APP_DIR = Path(__file__).resolve().parent / "online_banking_system"
+# Add project root directory to Python path
+ROOT_DIR = Path(__file__).resolve().parent
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
 
-os.chdir(APP_DIR)
+# Export top-level Flask app for WSGI servers & Vercel deployment
+from securebank_web.app import app
 
-runpy.run_path(
-    str(APP_DIR / "app.py"),
-    run_name="__main__"
-)
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=True)

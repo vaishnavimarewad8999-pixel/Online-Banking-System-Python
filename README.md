@@ -43,9 +43,9 @@ A secure banking application built with Python. SecureBank provides a simple, el
 ```text
 Online-Banking-System-Python/
 │
-├── app.py                      # Original Tkinter desktop entry point
+├── app.py                      # Flask web application root entry point
 ├── online_banking_system/      # Desktop Tkinter application module
-│   ├── app.py
+│   ├── app.py                  # Tkinter GUI entry point
 │   └── banking.db
 │
 ├── securebank_web/             # Web Application (Flask)
@@ -75,7 +75,7 @@ Online-Banking-System-Python/
 │   └── index.py                # Vercel serverless WSGI entry point
 │
 ├── tests/
-│   └── test_banking_web.py     # Automated unit test suite (9 test cases)
+│   └── test_banking_web.py     # Automated unit test suite (10 test cases)
 │
 ├── vercel.json                 # Vercel deployment routing configuration
 ├── .env.example                # Example environment variables
@@ -120,6 +120,8 @@ pip install -r requirements.txt
 ### Option A: Run Web Application (Flask)
 
 ```bash
+python app.py
+# or:
 python -m securebank_web.app
 ```
 Then open your browser and navigate to:
@@ -128,7 +130,7 @@ Then open your browser and navigate to:
 ### Option B: Run Desktop Application (Tkinter)
 
 ```bash
-python app.py
+python online_banking_system/app.py
 ```
 
 ---
@@ -158,7 +160,8 @@ git push origin main
 1. Log into your [Vercel Dashboard](https://vercel.com).
 2. Click **Add New** &rarr; **Project**.
 3. Import your `Online-Banking-System-Python` GitHub repository.
-4. Leave build settings as default (Vercel automatically detects `vercel.json` and `@vercel/python`).
+4. Ensure **Root Directory** is left as default `./` (project root).
+5. Leave build settings as default (Vercel automatically detects `vercel.json` and `@vercel/python`).
 
 ### Step 3: Configure Environment Variables
 
