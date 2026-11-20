@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Withdraw Funds - SecureBank{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <div class="row justify-content-center">
+    <div class="col-md-7 col-lg-5">
+      <div class="sb-card p-4">
+        
+        <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom">
+          <div>
+            <h3 class="fw-bold mb-1" style="color: var(--sb-navy);">Withdraw Funds</h3>
+            <div class="text-muted small">Deduct money from your demo account</div>
+          </div>
+          <div class="p-2 rounded-circle bg-light">
+            <i class="bi bi-dash-circle fs-3 text-danger"></i>
+          </div>
+        </div>
+
+        <div class="p-3 mb-4 rounded-3" style="background-color: var(--sb-red-light); border: 1px solid rgba(192, 57, 43, 0.2);">
+          <div class="small text-muted text-uppercase fw-bold">Current Available Balance</div>
+          <div class="fs-4 fw-bold text-danger">{{ user.balance | money }}</div>
+        </div>
+
+        <form method="POST" action="{{ url_for('withdraw') }}">
+          <div class="mb-3">
+            <label for="amount" class="form-label">Withdrawal Amount (₹)</label>
+            <div class="input-group">
+              <span class="input-group-text bg-white fw-bold">₹</span>
+              <input type="number" step="0.01" min="1" max="{{ user.balance }}" class="form-control" id="amount" name="amount" required autofocus placeholder="0.00">
+            </div>
+            <div class="form-text small text-muted">Amount cannot exceed your available balance.</div>
+          </div>
+
+          <div class="mb-4">
+            <label for="note" class="form-label">Note / Description (Optional)</label>
+            <input type="text" class="form-control" id="note" name="note" maxlength="100" placeholder="e.g. ATM cash withdrawal, Rent payment">
+          </div>
+
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-danger py-2 fw-semibold">
+              <i class="bi bi-dash-circle me-1"></i> Confirm Withdrawal
+            </button>
+            <a href="{{ url_for('dashboard') }}" class="btn btn-sb-secondary py-2">
+              Cancel
+            </a>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

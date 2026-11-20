@@ -1,47 +1,90 @@
 # 🏦 SecureBank – Online Banking System
 
-A Python-based desktop banking application built using **Tkinter and SQLite**. SecureBank provides a simple and user-friendly graphical interface to perform basic banking operations, manage accounts, and view transaction records.
+A secure banking application built with Python. SecureBank provides a simple, elegant interface to perform banking operations, manage accounts, and view transaction records. Available as both a **Desktop Application (Tkinter)** and a **Web Application (Flask + Bootstrap + Vercel)**.
+
+---
 
 ## 🚀 Features
 
-- **User Authentication:** Secure user registration and login.
-- **Account Number Generation:** Automatically generates a unique account number for each user.
+- **User Authentication:** Secure user registration and login with PBKDF2-HMAC-SHA256 password hashing.
+- **Account Number Generation:** Automatically generates a unique 10-digit account number for each user.
 - **Dashboard:** Displays account holder details, account number, available balance, and account status.
-- **Deposit Money:** Add money to the account.
-- **Withdraw Money:** Withdraw money with balance validation.
-- **Money Transfer:** Transfer funds between registered bank accounts.
+- **Deposit Money:** Add money with instant balance update and transaction logging.
+- **Withdraw Money:** Withdraw money with real-time balance validation.
+- **Money Transfer:** Atomic funds transfer between registered accounts with sender and receiver transaction entries.
 - **Mini Statement:** View the last 10 transactions.
-- **Transaction History:** View recent deposits, withdrawals, and transfers.
-- **Change Password:** Update account login credentials.
-- **Input Validation:** Handles invalid amounts, insufficient funds, and invalid receiver account numbers.
-- **Logout:** Securely exit the current user session.
+- **Transaction History:** Comprehensive activity log with filtering options.
+- **PDF Statement Download:** Export bank statement as an official PDF report.
+- **Change Password:** Securely update login credentials with validation.
+- **Input Validation:** Strict validation for positive amounts, non-self transfers, and password criteria.
+- **Session Security:** Cryptographically signed session management and protected routes.
+
+---
 
 ## 🛠️ Technologies Used
 
 | Technology | Purpose |
 |---|---|
-| Python | Core programming language |
-| Tkinter | Graphical User Interface |
-| SQLite | Database management |
-| hashlib | Password hashing |
-| secrets | Secure random value generation |
-| ttk | Modern GUI components |
+| Python 3 | Core programming language |
+| Flask | Web framework & routing |
+| Tkinter & ttk | Original desktop GUI |
+| HTML5, CSS3, Bootstrap 5 | Modern, responsive web user interface |
+| Bootstrap Icons | Visual UI icons |
+| SQLite | Local development database |
+| PostgreSQL / psycopg2 | Production persistent database (Vercel) |
+| ReportLab | PDF statement generation |
+| hashlib & secrets | PBKDF2 password hashing & cryptographic randoms |
+| Vercel Serverless | Cloud hosting & deployment |
+
+---
 
 ## 📂 Project Structure
 
 ```text
 Online-Banking-System-Python/
 │
-├── app.py
-│
-├── online_banking_system/
+├── app.py                      # Original Tkinter desktop entry point
+├── online_banking_system/      # Desktop Tkinter application module
 │   ├── app.py
 │   └── banking.db
 │
-├── .gitignore
+├── securebank_web/             # Web Application (Flask)
+│   ├── __init__.py
+│   ├── app.py                  # Flask routes & server logic
+│   ├── db.py                   # Unified DB layer (SQLite & PostgreSQL)
+│   ├── auth.py                 # PBKDF2 hashing, validations & decorators
+│   ├── requirements.txt        # Web app dependencies
+│   ├── static/
+│   │   ├── css/style.css       # Custom banking styling
+│   │   └── js/main.js          # Interactive UI scripts & clipboard copy
+│   └── templates/              # Responsive Jinja2 templates
+│       ├── base.html
+│       ├── login.html
+│       ├── register.html
+│       ├── dashboard.html
+│       ├── deposit.html
+│       ├── withdraw.html
+│       ├── transfer.html
+│       ├── mini_statement.html
+│       ├── transactions.html
+│       ├── change_password.html
+│       ├── 404.html
+│       └── 500.html
 │
+├── api/
+│   └── index.py                # Vercel serverless WSGI entry point
+│
+├── tests/
+│   └── test_banking_web.py     # Automated unit test suite (9 test cases)
+│
+├── vercel.json                 # Vercel deployment routing configuration
+├── .env.example                # Example environment variables
+├── requirements.txt            # Root dependencies for Vercel
+├── .gitignore
 └── README.md
 ```
+
+---
 
 ## ⚙️ Installation and Setup
 
@@ -49,58 +92,108 @@ Online-Banking-System-Python/
 
 ```bash
 git clone https://github.com/vaishnavimarewad8999-pixel/Online-Banking-System-Python.git
-```
-
-### 2. Open the Project Folder
-
-```bash
 cd Online-Banking-System-Python
 ```
 
-### 3. Run the Application
+### 2. Create and Activate Virtual Environment
 
-Make sure Python is installed on your system.
+```bash
+python -m venv .venv
+
+# On Windows:
+.venv\Scripts\activate
+
+# On macOS/Linux:
+source .venv/bin/activate
+```
+
+### 3. Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## 🖥️ Running the Applications
+
+### Option A: Run Web Application (Flask)
+
+```bash
+python -m securebank_web.app
+```
+Then open your browser and navigate to:
+**`http://127.0.0.1:5000`**
+
+### Option B: Run Desktop Application (Tkinter)
 
 ```bash
 python app.py
 ```
 
-The SecureBank desktop application will launch.
+---
 
-## 🖥️ Application Modules
+## 🧪 Running Automated Tests
 
-1. Login and Registration
-2. Account Management
-3. Banking Dashboard
-4. Deposit and Withdrawal
-5. Money Transfer
-6. Mini Statement
-7. Transaction History
-8. Password Management
+Run the comprehensive unit test suite covering registration, PBKDF2 hashing, authentication, deposit, withdrawal, atomic transfer, mini statement, password changes, and PDF generation:
+
+```bash
+python -m unittest tests/test_banking_web.py
+```
+
+---
+
+## ☁️ Deploying to Vercel
+
+### Step 1: Push Code to GitHub
+
+```bash
+git add .
+git commit -m "Add SecureBank Flask web application with Vercel deployment config"
+git push origin main
+```
+
+### Step 2: Import Project in Vercel
+
+1. Log into your [Vercel Dashboard](https://vercel.com).
+2. Click **Add New** &rarr; **Project**.
+3. Import your `Online-Banking-System-Python` GitHub repository.
+4. Leave build settings as default (Vercel automatically detects `vercel.json` and `@vercel/python`).
+
+### Step 3: Configure Environment Variables
+
+Under **Project Settings** &rarr; **Environment Variables**, add:
+
+| Variable | Description | Example |
+|---|---|---|
+| `SECRET_KEY` | Cryptographic secret for signing sessions | `any_long_random_secret_string` |
+| `DATABASE_URL` | Persistent PostgreSQL connection URL | `postgresql://user:pass@ep-host.region.neon.tech/dbname?sslmode=require` |
+
+> **Note:** You can obtain a free PostgreSQL database from [Neon.tech](https://neon.tech), [Supabase](https://supabase.com), or [Vercel Postgres](https://vercel.com/storage/postgres). If `DATABASE_URL` is omitted, the app will fall back to local SQLite.
+
+### Step 4: Deploy
+
+Click **Deploy**. Once built, Vercel provides a live URL (e.g., `https://your-project.vercel.app`) where your web banking system is fully live and accessible worldwide!
+
+---
 
 ## 🔐 Security Features
 
-- Password hashing using PBKDF2-HMAC with SHA-256.
-- Random salt generation for password protection.
-- Login credential verification.
-- Input validation for banking transactions.
-- SQLite database for storing account and transaction records.
+- **PBKDF2-HMAC-SHA256:** Password hashing with 200,000 iterations and 16-byte random salts.
+- **Constant-Time Verification:** Uses `secrets.compare_digest` to prevent timing attacks.
+- **Atomic Money Transfers:** Uses database transactions ensuring sender deduction and receiver addition happen together or roll back on error.
+- **Input Sanitation & Strict Validation:** Enforces positive transfer amounts, receiver account verification, and prevents self-transfers.
+- **Protected Endpoints:** Secure session checking with `@login_required` decorator across all banking actions.
 
-## 🎯 Project Objective
-
-The main objective of SecureBank is to demonstrate the basic working principles of an online banking system through a desktop application. It helps users understand account management, transaction processing, database connectivity, authentication, and GUI development using Python.
+---
 
 ## ⚠️ Disclaimer
 
-This project is developed for educational and learning purposes only. It is a banking simulation and is not connected to any real bank or financial institution. Do not use real banking credentials or financial information.
+This project is developed for educational and learning purposes only. It is a banking simulation and is not connected to any real bank or financial institution. Do not use real banking credentials or real money.
+
+---
 
 ## 👩‍💻 Author
 
-**Vaishnavi Marewad**
-
+**Vaishnavi Marewad**  
 GitHub: [@vaishnavimarewad8999-pixel](https://github.com/vaishnavimarewad8999-pixel)
-
-## ⭐ Support
-
-If you find this project useful, consider giving the repository a star!
-

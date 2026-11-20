@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Create Account - SecureBank{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper">
+  <div class="auth-card">
+    <div class="mb-4">
+      <div class="d-flex align-items-center gap-2 mb-2">
+        <span class="sb-brand-dot"></span>
+        <span class="text-uppercase fw-bold text-muted small" style="letter-spacing: 1px;">SecureBank</span>
+      </div>
+      <h2 class="fw-bold mb-1" style="color: var(--sb-navy);">Create account</h2>
+      <p class="text-muted small mb-0">Register a demo account to get started.</p>
+    </div>
+
+    <form method="POST" action="{{ url_for('register') }}">
+      <div class="mb-3">
+        <label for="full_name" class="form-label">Full Name</label>
+        <div class="input-group">
+          <span class="input-group-text bg-white text-muted border-end-0"><i class="bi bi-card-text"></i></span>
+          <input type="text" class="form-control border-start-0" id="full_name" name="full_name" value="{{ full_name or '' }}" required autofocus placeholder="e.g. John Doe">
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <div class="input-group">
+          <span class="input-group-text bg-white text-muted border-end-0"><i class="bi bi-person"></i></span>
+          <input type="text" class="form-control border-start-0" id="username" name="username" value="{{ username or '' }}" required placeholder="Choose a unique username">
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <div class="input-group">
+          <span class="input-group-text bg-white text-muted border-end-0"><i class="bi bi-lock"></i></span>
+          <input type="password" class="form-control border-start-0 border-end-0" id="password" name="password" minlength="6" required placeholder="At least 6 characters">
+          <button class="btn btn-outline-secondary toggle-password-btn" type="button" data-target="password">
+            <i class="bi bi-eye"></i>
+          </button>
+        </div>
+        <div class="form-text small text-muted">Must be at least 6 characters.</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="confirm" class="form-label">Confirm Password</label>
+        <div class="input-group">
+          <span class="input-group-text bg-white text-muted border-end-0"><i class="bi bi-lock-fill"></i></span>
+          <input type="password" class="form-control border-start-0 border-end-0" id="confirm" name="confirm" minlength="6" required placeholder="Re-enter password">
+          <button class="btn btn-outline-secondary toggle-password-btn" type="button" data-target="confirm">
+            <i class="bi bi-eye"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="d-grid gap-2 mt-4">
+        <button type="submit" class="btn btn-sb-primary py-2">
+          <i class="bi bi-person-plus me-1"></i> Create Account
+        </button>
+      </div>
+    </form>
+
+    <div class="text-center mt-4 pt-3 border-top">
+      <span class="text-muted small">Already registered?</span>
+      <a href="{{ url_for('login') }}" class="fw-semibold text-decoration-none ms-1" style="color: var(--sb-teal);">Sign in</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

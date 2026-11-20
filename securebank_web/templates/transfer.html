@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Transfer Money - SecureBank{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <div class="row justify-content-center">
+    <div class="col-md-7 col-lg-5">
+      <div class="sb-card p-4">
+        
+        <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom">
+          <div>
+            <h3 class="fw-bold mb-1" style="color: var(--sb-navy);">Transfer Money</h3>
+            <div class="text-muted small">Send money to any registered SecureBank account</div>
+          </div>
+          <div class="p-2 rounded-circle bg-light">
+            <i class="bi bi-arrow-left-right fs-3 text-primary" style="color: var(--sb-teal) !important;"></i>
+          </div>
+        </div>
+
+        <div class="p-3 mb-4 rounded-3" style="background-color: var(--sb-teal-light); border: 1px solid rgba(8, 126, 139, 0.2);">
+          <div class="small text-muted text-uppercase fw-bold">Available Balance</div>
+          <div class="fs-4 fw-bold" style="color: var(--sb-teal);">{{ user.balance | money }}</div>
+        </div>
+
+        <form method="POST" action="{{ url_for('transfer') }}" id="transferForm">
+          <div class="mb-3">
+            <label for="receiver_account" class="form-label">Receiver Account Number</label>
+            <div class="input-group">
+              <span class="input-group-text bg-white text-muted"><i class="bi bi-person-badge"></i></span>
+              <input type="text" class="form-control" id="receiver_account" name="receiver_account" value="{{ receiver_account or '' }}" required autofocus placeholder="10-digit account number" pattern="\d{10}" title="Must be a 10-digit account number">
+            </div>
+            <div class="form-text small text-muted">Enter the 10-digit account number of the recipient.</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="amount" class="form-label">Transfer Amount (₹)</label>
+            <div class="input-group">
+              <span class="input-group-text bg-white fw-bold">₹</span>
+              <input type="number" step="0.01" min="1" max="{{ user.balance }}" class="form-control" id="amount" name="amount" required placeholder="0.00">
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label for="note" class="form-label">Note / Reference (Optional)</label>
+            <input type="text" class="form-control" id="note" name="note" maxlength="100" placeholder="e.g. Dinner split, Personal transfer">
+          </div>
+
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-sb-primary py-2">
+              <i class="bi bi-send-check me-1"></i> Confirm Transfer
+            </button>
+            <a href="{{ url_for('dashboard') }}" class="btn btn-sb-secondary py-2">
+              Cancel
+            </a>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
